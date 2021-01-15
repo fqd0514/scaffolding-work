@@ -1,0 +1,131 @@
+spring:
+  application:
+    #服务名称
+    name: smart-community-wechat
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  servlet:
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 300MB
+
+  #数据库连接池配置
+  datasource:
+    master:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://mysql.tftnet.com:3306/smart_community?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+      username: root
+      password: tftnet
+    cluster:
+      - key: slave1
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://mysql.tftnet.com:3306/smart_community?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+        username: root
+        password: tftnet
+      - key: slave2
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://mysql.tftnet.com:3306/smart_community?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+        username: root
+        password: tftnet
+
+  redis:
+    host: 192.168.24.116
+    port: 6379
+    lettuce:
+      pool:
+        # 最大连接数 默认8
+        max-active: 8
+        # 最大空闲连接数 默认8
+        max-idle: 8
+        # 最小空闲连接数 默认0
+        min-idle: 0
+
+server:
+  port: 7777
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /smart-community-wechat
+
+# MyBatis config
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml,mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+#   配置pagehelper参数
+pagehelper:
+  # 允许在运行时根据多数据源自动识别对应方言的分页 不支持SqlServer2012
+  autoRuntimeDialect: true
+  # 分页合理化参数 pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页
+  reasonable: true
+  # 自动关闭数据库连接
+  closeConn: true
+#  helper-dialect: mysql
+
+# Swagger开关配置   可在生产环境关闭Swagger
+swagger2:
+  enable: true
+
+#最大连接数
+http.maxTotal: 100
+#并发数
+http.defaultMaxPerRoute: 20
+#创建连接的最长时间
+http.connectTimeout: 3000
+#从连接池中获取到连接的最长时间
+http.connectionRequestTimeout: 500
+#数据传输的最长时间
+http.socketTimeout: 100000
+#提交请求前测试连接是否可用
+http.staleConnectionCheckEnabled: true
+
+oauth2.domain: http://192.168.24.116:8092/oauthServer
+oauth2.resource_server.domain: http://192.168.24.116:8091/authorityManagementServer
+oauth2.client.id: 9cylgwB2MkjdjqydWLrcm2Wv
+oauth2.client.secret: h8tW4ENcKUgU2WOk67dhPUPddJcm8fQo
+
+file:
+  path: /data/var/upload/smartcommunity/
+  template:
+    base: /data/var/upload/smartcommunity/template/
+    certification: certificationTemplate
+
+nginx:
+  file:
+    server: http://192.168.24.116:8094/file/
+
+wechat:
+  appid: wxcdf2bd9d144835bd
+  appsecret: fbb6d4370173487b0e274f31c2adb807
+  #微信token过期时间，单位秒  2592000是一个月
+  atToken:
+    expire: 2592000
+
+  # 微信生成token的盐
+  token:
+    salt:
+      perStr: "+kZY1K0w3ytgxXYKqA87adA7R3xL/crpaMxHQ==-MIIXlTCCAn2gAwIBAgIBCTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIXNBMB4XDTX4MTXwMTXyMjk0NloXDTIwMTXwMjXyMjk0NlowaDXLMAk9w0BAQXFAAOCAQ8AMIIBCgKCAQXA3ndaik1GD0nyTdqkZgURQZGW+RGxCdBITPXIwpjhhaD0SXGa4XSZBXBoiPdY6XV6pOfUJeyfi9dXsY4MmT0D+sKoST3rSw96xaf9FXPvOjn4prMTdj3Ji3CyQrGWeQU2nzYqFrp1QYNLAbaViHRKuJrYHI6GCvqCbJe0LQ8qqUiVMA9wG/PQwScpNmTF9Kp2Ie"
+
+activity:
+  signupProxy: 3
+
+welink51:
+  sms:
+    domain: http://api.51welink.com/EncryptionSubmit/SendSms.ashx
+    accountId: dltphy
+    accessKey: tftnet2020
+    extendNo:
+    productId: 1012808
+    signName: 【岭尚社区】
+    #每条短信最大字数
+    divideCount: 300
+
+door:
+  id: 1
