@@ -1,8 +1,8 @@
 package ${package.Service}.${entity?lower_case}.impl;
 
 import ${package.Entity}.po.${entity?lower_case}.${entity};
-import ${package.Entity}.dto.${entity?lower_case}.${entity}Dto;
-import ${package.Entity}.query.${entity?lower_case}.${entity}Query;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
+import ${package.Entity}.query.${entity?lower_case}.${entity}QueryDTO;
 import ${package.Mapper}.${entity?lower_case}.${table.mapperName};
 import ${package.Service}.${entity?lower_case}.${table.serviceName};
 import ${superServiceImplClassPackage};
@@ -36,8 +36,13 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 <#else>
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
+  /**
+   * ${table.comment}列表
+   * @Author ${author}
+   * @Date ${date}
+   **/
   @Override
-  public List<${entity}Vo> listNoPage(${entity}Query param) {
+  public List<${entity}Vo> listNoPage(${entity}QueryDTO param) {
     QueryWrapper<${entity}> queryWrapper = Wrappers.query();
     List<${entity}> ${entity?uncap_first}List = list(queryWrapper);
     List<${entity}Vo> ${entity?uncap_first}Vos = new ArrayList<>();
@@ -49,8 +54,13 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     return ${entity?uncap_first}Vos;
   }
 
+  /**
+   * ${table.comment}列表(分页)
+   * @Author ${author}
+   * @Date ${date}
+   **/
   @Override
-  public IPage<${entity}Vo> list(${entity}Query param) {
+  public IPage<${entity}Vo> list(${entity}QueryDTO param) {
     IPage<${entity}> page = new Page<>(param.getPage(),param.getSize());
     QueryWrapper<${entity}> queryWrapper = Wrappers.query();
     IPage<${entity}> pageList = page(page);
@@ -69,6 +79,11 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     return responsePage;
   }
 
+  /**
+   * ${table.comment}实体详情
+   * @Author ${author}
+   * @Date ${date}
+   **/
   @Override
   public ${entity}Vo get(String id) {
     ${entity} ${entity?uncap_first} = getById(id);
@@ -78,20 +93,37 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     return ${entity?uncap_first}Vo ;
   }
 
+  /**
+  * 新增${table.comment}实体
+  * @Author ${author}
+  * @Date ${date}
+  **/
   @Override
-  public boolean save(${entity}Dto param) {
+  public boolean save(${entity}DTO param) {
     ${entity} ${entity?uncap_first} = new ${entity}();
     BeanUtils.copyProperties(param, ${entity?uncap_first});
     return save(${entity?uncap_first});
   }
 
+
+  /**
+   * 修改${table.comment}实体
+   * @Author ${author}
+   * @Date ${date}
+   **/
   @Override
-  public boolean update(${entity}Dto param) {
+  public boolean update(${entity}DTO param) {
     ${entity} ${entity?uncap_first} = new ${entity}();
     BeanUtils.copyProperties(param, ${entity?uncap_first});
     return updateById(${entity?uncap_first});
   }
 
+
+  /**
+   * 删除${table.comment}实体
+   * @Author ${author}
+   * @Date ${date}
+   **/
   @Override
   public boolean deleteByID(String id) {
     ${entity} ${entity?uncap_first} = this.getById(id);

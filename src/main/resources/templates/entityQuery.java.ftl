@@ -38,7 +38,7 @@ import lombok.experimental.Accessors;
 @ApiModel(value="${entity}Query对象", description="${table.comment!}")
 </#if>
 <#if superEntityClass??>
-public class ${entity}Query extends ${superEntityClass}<#if activeRecord><${entity}Query></#if> {
+public class ${entity}QueryDTO extends ${superEntityClass}<#if activeRecord><${entity}Query></#if> {
 <#elseif activeRecord>
 public class ${entity}Query extends Model<${entity}Query> {
 <#else>

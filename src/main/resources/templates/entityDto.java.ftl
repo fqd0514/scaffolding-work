@@ -30,9 +30,9 @@ import lombok.experimental.Accessors;
     </#if>
 </#if>
 <#if swagger2>
-@ApiModel(value="${entity}Dto对象", description="${table.comment!}")
+@ApiModel(value="${entity}DTO对象", description="${table.comment!}")
 </#if>
-public class ${entity}Dto {
+public class ${entity}DTO {
 
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
@@ -65,7 +65,7 @@ public class ${entity}Dto {
     }
 
     <#if chainModel>
-    public ${entity}Dto set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+    public ${entity}DTO set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
     <#else>
     public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
     </#if>
@@ -97,7 +97,7 @@ public class ${entity}Dto {
 <#if !entityLombokModel>
     @Override
     public String toString() {
-        return "${entity}Dto{" +
+        return "${entity}DTO{" +
     <#list table.fields as field>
         <#if field_index==0>
             "${field.propertyName}=" + ${field.propertyName} +

@@ -2,8 +2,8 @@ package ${package.Service}.${entity?lower_case};
 
 import ${package.Entity}.po.${entity?lower_case}.${entity};
 import ${package.Entity}.vo.${entity?lower_case}.${entity}Vo;
-import ${package.Entity}.dto.${entity?lower_case}.${entity}Dto;
-import ${package.Entity}.query.${entity?lower_case}.${entity}Query;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
+import ${package.Entity}.query.${entity?lower_case}.${entity}QueryDTO;
 import ${superServiceClassPackage};
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import java.util.List;
@@ -27,7 +27,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     *
     * @return
     */
-    List<${entity}Vo> listNoPage(${entity}Query param);
+    List<${entity}Vo> listNoPage(${entity}QueryDTO param);
 
     /**
     * 获取实体list分页
@@ -35,7 +35,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param param
     * @return
     */
-    IPage<${entity}Vo> list(${entity}Query param);
+    IPage<${entity}Vo> list(${entity}QueryDTO param);
 
     /**
     * 获取实体详情
@@ -51,7 +51,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param param
     * @return
     */
-    boolean save(${entity}Dto param);
+    boolean save(${entity}DTO param);
 
     /**
     * 更新实体
@@ -59,7 +59,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param param
     * @return
     */
-    boolean update(${entity}Dto param);
+    boolean update(${entity}DTO param);
 
     /**
     * 根据ID删除

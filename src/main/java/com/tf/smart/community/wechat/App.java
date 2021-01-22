@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * 应用
  *
- * @author 翟晶
+ * @author LeeYoung
  */
 @SpringBootApplication
 @ServletComponentScan

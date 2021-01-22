@@ -1,8 +1,8 @@
 package ${package.Controller}.${entity?lower_case};
 
 import ${package.Entity}.vo.${entity?lower_case}.${entity}Vo;
-import ${package.Entity}.dto.${entity?lower_case}.${entity}Dto;
-import ${package.Entity}.query.${entity?lower_case}.${entity}Query;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
+import ${package.Entity}.query.${entity?lower_case}.${entity}QueryDTO;
 import ${package.Service}.${entity?lower_case}.${table.serviceName};
 <#if cfg.isRecordOperateLog?string("true","flase") ='true'>
 import com.tf.smart.community.wechat.common.annotation.OperateLog;
@@ -75,7 +75,7 @@ public class ${table.controllerName} {
      **/
     @ApiOperation(value = "${table.comment}列表", response = ${entity}Vo.class)
     @PostMapping(value = "/listNoPage")
-    public CommonResponse listNoPage(@Valid @RequestBody ${entity}Query param) {
+    public CommonResponse listNoPage(@Valid @RequestBody ${entity}QueryDTO param) {
         List<${entity}Vo> pageList = ${table.serviceName?uncap_first}.listNoPage(param);
         return CommonResponse.success(pageList);
     }
@@ -87,7 +87,7 @@ public class ${table.controllerName} {
      **/
     @ApiOperation(value = "${table.comment}列表(分页)", response = ${entity}Vo.class)
     @PostMapping(value = "/list")
-    public CommonResponse list(@Valid @RequestBody ${entity}Query param) {
+    public CommonResponse list(@Valid @RequestBody ${entity}QueryDTO param) {
         IPage<${entity}Vo> pageList = ${table.serviceName?uncap_first}.list(param);
         return CommonResponse.page(pageList);
     }
@@ -114,7 +114,7 @@ public class ${table.controllerName} {
      **/
     @ApiOperation(value = "新增${table.comment}实体")
     @PostMapping("/add")
-    public CommonResponse add(@Validated(Save.class) @RequestBody ${entity}Dto param) {
+    public CommonResponse add(@Validated(Save.class) @RequestBody ${entity}DTO param) {
         boolean isSuccess = ${table.serviceName?uncap_first}.save(param);
         return CommonResponse.success(isSuccess);
     }
@@ -126,7 +126,7 @@ public class ${table.controllerName} {
      **/
     @ApiOperation(value = "编辑${table.comment}实体")
     @PutMapping("/update")
-    public CommonResponse update(@Validated(Update.class) @RequestBody ${entity}Dto param) {
+    public CommonResponse update(@Validated(Update.class) @RequestBody ${entity}DTO param) {
         boolean isSuccess = ${table.serviceName?uncap_first}.update(param);
         return CommonResponse.success(isSuccess);
     }
@@ -155,7 +155,7 @@ public class ${table.controllerName} {
 <#if cfg.isGenerateExcel?string("true","flase") ='true'>
     @ApiOperation(value = "导出${table.comment}列表")
     @PostMapping(value = "/excel")
-    public void excel(@Valid @RequestBody ${entity}Query param, HttpServletResponse response) {
+    public void excel(@Valid @RequestBody ${entity}QueryDTO param, HttpServletResponse response) {
         List<${entity}Vo> ${entity}Vos = ${table.serviceName?uncap_first}.listNoPage(param);
         EasyPoiExcelUtil.exportExcel(${entity}Vos, "${table.comment}列表", "${table.comment}列表", ${entity}Vo.class, "${table.comment}列表.xls", response);
     }
