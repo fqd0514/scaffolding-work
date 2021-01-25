@@ -1,5 +1,8 @@
 package com.tf.smart.community.wechat.service.sysorganization.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.tf.smart.community.wechat.common.utils.SessionUtils;
+import com.tf.smart.community.wechat.entity.auth.UserDetail;
 import com.tf.smart.community.wechat.entity.po.sysorganization.SysOrganization;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationDTO;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationQueryDTO;
@@ -100,6 +103,7 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
   **/
   @Override
   public boolean save(SysOrganizationDTO param) {
+//    SessionUtils.getUserDetail()
     SysOrganization sysOrganization = new SysOrganization();
     BeanUtils.copyProperties(param, sysOrganization);
     return save(sysOrganization);

@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeSet;
 
-import static com.tf.smart.community.wechat.common.constant.CommonConstant.WECHATTOKENKEY;
 
 /***
  * 网关过滤器
@@ -93,7 +92,8 @@ public class AuthFilter implements Filter {
             if (checkToken(token)) {
                 chain.doFilter(request, response);
             } else {
-                cacheUtil.del(WECHATTOKENKEY + token);
+                //todo  需要改
+//                cacheUtil.del(WECHATTOKENKEY + token);
                 sendErrorMessage(response, "Token 已过期，请重新登录！");
             }
         }
@@ -107,17 +107,18 @@ public class AuthFilter implements Filter {
      * @Date 2020/10/9
      **/
     private boolean checkToken(String token) {
-        if(cacheUtil.hasKey(WECHATTOKENKEY+token)){
-            long l = cacheUtil.getExpire(token);
-            if (l < atTokenExpireSeconds) {
-                // 更新过期时间
-                cacheUtil.expire(WECHATTOKENKEY+token, atTokenExpireSeconds);
-            }
-            return true;
-        }else {
-            return false;
-        }
-
+        //todo  需要改
+//        if(cacheUtil.hasKey(WECHATTOKENKEY+token)){
+//            long l = cacheUtil.getExpire(token);
+//            if (l < atTokenExpireSeconds) {
+//                // 更新过期时间
+//                cacheUtil.expire(WECHATTOKENKEY+token, atTokenExpireSeconds);
+//            }
+//            return true;
+//        }else {
+//            return false;
+//        }
+        return false;
     }
 
     @Override

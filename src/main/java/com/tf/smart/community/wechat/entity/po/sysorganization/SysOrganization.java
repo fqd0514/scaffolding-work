@@ -1,6 +1,9 @@
 package com.tf.smart.community.wechat.entity.po.sysorganization;
 
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.tf.smart.community.wechat.entity.dto.base.PageDTO;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -23,6 +26,7 @@ public class SysOrganization {
 
 
     @ApiModelProperty(value = "机构ID")
+    @TableId(value = "id",type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "机构名称")

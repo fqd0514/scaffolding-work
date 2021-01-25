@@ -1,5 +1,6 @@
 package com.tf.smart.community.wechat.common.utils;
 
+import com.tf.smart.community.wechat.common.constant.CommonConstant;
 import com.tf.smart.community.wechat.common.enums.CommonResponseEnum;
 import com.tf.smart.community.wechat.common.exception.CommonBusinessException;
 import com.tf.smart.community.wechat.entity.auth.ThreadSessionInfo;
@@ -41,20 +42,20 @@ public class SessionUtils {
      * @return {@link UserDetail}
      */
     public static UserDetail getUserDetail() {
-//        String token = threadLocal.get().getToken();
-//        String userId = String.valueOf(cacheUtil.get(AuthService.REDIS_OAUTH_SERVER_TOKEN + token));
-//
-//        if (StringUtils.isBlank(token) || StringUtils.isBlank(userId)) {
-//            throw new CommonBusinessException(CommonResponseEnum.INVALID_PARAMTER, "Token 与用户主键不能为空");
-//        }
-//
-//        try {
+        String token = threadLocal.get().getToken();
+        String userId = String.valueOf(cacheUtil.get(CommonConstant.REDIS_TOKEN + token));
+
+        if (StringUtils.isBlank(token) || StringUtils.isBlank(userId)) {
+            throw new CommonBusinessException(CommonResponseEnum.INVALID_PARAMTER, "Token 与用户主键不能为空");
+        }
+
+        try {
 //            UserDetail userDetail = authService.getUserDetail(token, userId);
 //
 //            return userDetail;
-//        } catch (Exception ex) {
-//            throw new CommonBusinessException(CommonResponseEnum.SYSTEM_ERROR, "获取用户详情失败");
-//        }
+        } catch (Exception ex) {
+            throw new CommonBusinessException(CommonResponseEnum.SYSTEM_ERROR, "获取用户详情失败");
+        }
         return null;
     }
 
