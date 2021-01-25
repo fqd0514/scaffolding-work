@@ -11,17 +11,17 @@ spring:
     multipart:
       max-file-size: 300MB
       max-request-size: 300MB
-  data:
-    elasticsearch:
-      repositories:
-        enabled: true
-      cluster-nodes: 192.168.8.14:9300 # es的连接地址及端口号
+#  data:
+#    elasticsearch:
+#      repositories:
+#        enabled: true
+#      cluster-nodes: 192.168.8.14:9300 # es的连接地址及端口号
   #数据库连接池配置
   datasource:
     master:
-      type: com.zaxxer.hikari.HikariDataSource
+      type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.133.50:3306/smart_community?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+      url: jdbc:mysql://192.168.133.50:3306/scaffold?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
       username: root
       password: 123456
   #    cluster:
@@ -95,12 +95,6 @@ http.socketTimeout: 100000
 #提交请求前测试连接是否可用
 http.staleConnectionCheckEnabled: true
 
-oauth2.domain: http://192.168.24.116:8092/oauthServer
-oauth2.resource_server.domain: http://192.168.24.116:8091/authorityManagementServer
-oauth2.client.id: 9cylgwB2MkjdjqydWLrcm2Wv
-oauth2.client.secret: h8tW4ENcKUgU2WOk67dhPUPddJcm8fQo
-password.encrypt.prefix: ""
-
 file:
   path: E:\项目文档\保税区智慧社区\原型
   template:
@@ -110,33 +104,7 @@ nginx:
   file:
     server: http://192.168.24.116:8094/file/
 
-cms:
-  auditId: auditId
-
-# 微信生成token的盐
-wechat:
-  appid: wxcdf2bd9d144835bd
-  appsecret: fbb6d4370173487b0e274f31c2adb807
-  #微信token过期时间，单位秒  2592000是一个月
-  atToken:
-    expire: 2592000
-
-  # 微信生成token的盐
-  token:
-    salt:
-      perStr: "+kZY1K0w3ytgxXYKqA87adA7R3xL/crpaMxHQ==-MIIXlTCCAn2gAwIBAgIBCTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIXNBMB4XDTX4MTXwMTXyMjk0NloXDTIwMTXwMjXyMjk0NlowaDXLMAk9w0BAQXFAAOCAQ8AMIIBCgKCAQXA3ndaik1GD0nyTdqkZgURQZGW+RGxCdBITPXIwpjhhaD0SXGa4XSZBXBoiPdY6XV6pOfUJeyfi9dXsY4MmT0D+sKoST3rSw96xaf9FXPvOjn4prMTdj3Ji3CyQrGWeQU2nzYqFrp1QYNLAbaViHRKuJrYHI6GCvqCbJe0LQ8qqUiVMA9wG/PQwScpNmTF9Kp2Ie"
-
-activity:
-  signupProxy: 3
-
-welink51:
-  sms:
-    domain: http://api.51welink.com/EncryptionSubmit/SendSms.ashx
-    accountId: dltjsktf
-    accessKey: TJsk1234
-    extendNo:
-    productId: 1012808
-    signName: 【水库运行综合服务中心】
-    #每条短信最大字数
-    divideCount: 300
+#token过期时间
+atToken:
+  expireSeconds: 3600
 

@@ -2,11 +2,11 @@ package ${package.Service}.${entity?lower_case}.impl;
 
 import ${package.Entity}.po.${entity?lower_case}.${entity};
 import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
-import ${package.Entity}.query.${entity?lower_case}.${entity}QueryDTO;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}QueryDTO;
 import ${package.Mapper}.${entity?lower_case}.${table.mapperName};
 import ${package.Service}.${entity?lower_case}.${table.serviceName};
 import ${superServiceImplClassPackage};
-import ${package.Entity}.vo.${entity?lower_case}.${entity}Vo;
+import ${package.Entity}.vo.${entity?lower_case}.${entity}VO;
 import com.tf.smart.community.wechat.common.enums.CommonResponseEnum;
 import com.tf.smart.community.wechat.common.exception.CommonBusinessException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -42,16 +42,16 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
    * @Date ${date}
    **/
   @Override
-  public List<${entity}Vo> listNoPage(${entity}QueryDTO param) {
+  public List<${entity}VO> listNoPage(${entity}QueryDTO param) {
     QueryWrapper<${entity}> queryWrapper = Wrappers.query();
     List<${entity}> ${entity?uncap_first}List = list(queryWrapper);
-    List<${entity}Vo> ${entity?uncap_first}Vos = new ArrayList<>();
+    List<${entity}VO> ${entity?uncap_first}VOs = new ArrayList<>();
     ${entity?uncap_first}List.forEach(${entity?uncap_first} -> {
-      ${entity}Vo ${entity?uncap_first}Vo = new ${entity}Vo();
-      BeanUtils.copyProperties(${entity?uncap_first}, ${entity?uncap_first}Vo);
-      ${entity?uncap_first}Vos.add(${entity?uncap_first}Vo);
+      ${entity}VO ${entity?uncap_first}VO = new ${entity}VO();
+      BeanUtils.copyProperties(${entity?uncap_first}, ${entity?uncap_first}VO);
+      ${entity?uncap_first}VOs.add(${entity?uncap_first}VO);
     });
-    return ${entity?uncap_first}Vos;
+    return ${entity?uncap_first}VOs;
   }
 
   /**
@@ -60,19 +60,19 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
    * @Date ${date}
    **/
   @Override
-  public IPage<${entity}Vo> list(${entity}QueryDTO param) {
+  public IPage<${entity}VO> list(${entity}QueryDTO param) {
     IPage<${entity}> page = new Page<>(param.getPage(),param.getSize());
     QueryWrapper<${entity}> queryWrapper = Wrappers.query();
     IPage<${entity}> pageList = page(page);
-    List<${entity}Vo> ${entity?uncap_first}Vos = new ArrayList<>();
+    List<${entity}VO> ${entity?uncap_first}VOs = new ArrayList<>();
     pageList.getRecords().forEach(${entity?uncap_first} -> {
-    ${entity}Vo ${entity?uncap_first}Vo = new ${entity}Vo();
-        BeanUtils.copyProperties(${entity?uncap_first}, ${entity?uncap_first}Vo);
-        ${entity?uncap_first}Vos.add(${entity?uncap_first}Vo);
+    ${entity}VO ${entity?uncap_first}VO = new ${entity}VO();
+        BeanUtils.copyProperties(${entity?uncap_first}, ${entity?uncap_first}VO);
+        ${entity?uncap_first}VOs.add(${entity?uncap_first}VO);
     });
 
-    IPage<${entity}Vo> responsePage = new Page<>();
-    responsePage.setRecords(${entity?uncap_first}Vos);
+    IPage<${entity}VO> responsePage = new Page<>();
+    responsePage.setRecords(${entity?uncap_first}VOs);
     responsePage.setCurrent(pageList.getCurrent());
     responsePage.setTotal(pageList.getTotal());
     responsePage.setPages(pageList.getPages());
@@ -85,12 +85,12 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
    * @Date ${date}
    **/
   @Override
-  public ${entity}Vo get(String id) {
+  public ${entity}VO get(String id) {
     ${entity} ${entity?uncap_first} = getById(id);
     CommonResponseEnum.RESULT_IS_NULL.assertNotNull(${entity?uncap_first});
-    ${entity}Vo ${entity?uncap_first}Vo = new ${entity}Vo();
-    BeanUtils.copyProperties(${entity?uncap_first}, ${entity?uncap_first}Vo);
-    return ${entity?uncap_first}Vo ;
+    ${entity}VO ${entity?uncap_first}VO = new ${entity}VO();
+    BeanUtils.copyProperties(${entity?uncap_first}, ${entity?uncap_first}VO);
+    return ${entity?uncap_first}VO ;
   }
 
   /**

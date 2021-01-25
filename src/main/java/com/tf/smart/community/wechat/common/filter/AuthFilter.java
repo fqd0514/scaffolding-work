@@ -20,11 +20,11 @@ import java.util.TreeSet;
 
 import static com.tf.smart.community.wechat.common.constant.CommonConstant.WECHATTOKENKEY;
 
-/**
- * 权限过滤器
- *
- * @author 翟晶
- */
+/***
+ * 网关过滤器
+ * @Author Leeyoung
+ * @Date 2021/1/25
+ **/
 @Slf4j
 @WebFilter(urlPatterns = "/*", filterName = "authFilter")
 public class AuthFilter implements Filter {
@@ -36,8 +36,8 @@ public class AuthFilter implements Filter {
     /**
      * 微信token过期时间，单位秒
      */
-    @Value("${wechat.atToken.expire}")
-    private long atTokenExpire;
+    @Value("${atToken.expireSeconds}")
+    private long atTokenExpireSeconds;
 
     static {
         NO_FILTER_URL.add("/swagger-ui.html");
@@ -46,6 +46,7 @@ public class AuthFilter implements Filter {
         NO_FILTER_URL.add("/v2");
         NO_FILTER_URL.add("/api/wechat/login");
         NO_FILTER_URL.add("/doc.html");
+        NO_FILTER_URL.add("/api/*");
     }
 
     @Override
@@ -108,9 +109,9 @@ public class AuthFilter implements Filter {
     private boolean checkToken(String token) {
         if(cacheUtil.hasKey(WECHATTOKENKEY+token)){
             long l = cacheUtil.getExpire(token);
-            if (l < atTokenExpire) {
+            if (l < atTokenExpireSeconds) {
                 // 更新过期时间
-                cacheUtil.expire(WECHATTOKENKEY+token, atTokenExpire);
+                cacheUtil.expire(WECHATTOKENKEY+token, atTokenExpireSeconds);
             }
             return true;
         }else {

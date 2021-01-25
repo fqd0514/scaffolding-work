@@ -1,4 +1,4 @@
-package ${package.Entity}.query.${entity?lower_case};
+package ${package.Entity}.dto.${entity?lower_case};
 
 <#list table.importPackages as pkg>
 import ${pkg};

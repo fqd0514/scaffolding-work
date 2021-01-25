@@ -16,8 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @ServletComponentScan
 @Import(DataSourceConfigurer.class)
-@MapperScan({"com.tf.smart.community.wechat.dao"})
-@EnableScheduling
+@MapperScan({"com.tf.smart.community.wechat.dao.*"})
 public class App {
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);

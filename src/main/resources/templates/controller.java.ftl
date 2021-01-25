@@ -1,8 +1,8 @@
 package ${package.Controller}.${entity?lower_case};
 
-import ${package.Entity}.vo.${entity?lower_case}.${entity}Vo;
+import ${package.Entity}.vo.${entity?lower_case}.${entity}VO;
 import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
-import ${package.Entity}.query.${entity?lower_case}.${entity}QueryDTO;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}QueryDTO;
 import ${package.Service}.${entity?lower_case}.${table.serviceName};
 <#if cfg.isRecordOperateLog?string("true","flase") ='true'>
 import com.tf.smart.community.wechat.common.annotation.OperateLog;
@@ -50,7 +50,7 @@ import ${superControllerClassPackage};
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/api/${package.ModuleName}</#if>/api/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
@@ -73,10 +73,10 @@ public class ${table.controllerName} {
      * @Author ${author}
      * @Date ${date}
      **/
-    @ApiOperation(value = "${table.comment}列表", response = ${entity}Vo.class)
+    @ApiOperation(value = "${table.comment}列表", response = ${entity}VO.class)
     @PostMapping(value = "/listNoPage")
     public CommonResponse listNoPage(@Valid @RequestBody ${entity}QueryDTO param) {
-        List<${entity}Vo> pageList = ${table.serviceName?uncap_first}.listNoPage(param);
+        List<${entity}VO> pageList = ${table.serviceName?uncap_first}.listNoPage(param);
         return CommonResponse.success(pageList);
     }
 
@@ -85,10 +85,10 @@ public class ${table.controllerName} {
      * @Author ${author}
      * @Date ${date}
      **/
-    @ApiOperation(value = "${table.comment}列表(分页)", response = ${entity}Vo.class)
+    @ApiOperation(value = "${table.comment}列表(分页)", response = ${entity}VO.class)
     @PostMapping(value = "/list")
     public CommonResponse list(@Valid @RequestBody ${entity}QueryDTO param) {
-        IPage<${entity}Vo> pageList = ${table.serviceName?uncap_first}.list(param);
+        IPage<${entity}VO> pageList = ${table.serviceName?uncap_first}.list(param);
         return CommonResponse.page(pageList);
     }
 
@@ -97,13 +97,13 @@ public class ${table.controllerName} {
      * @Author ${author}
      * @Date ${date}
      **/
-    @ApiOperation(value = "${table.comment}实体详情", response = ${entity}Vo.class)
+    @ApiOperation(value = "${table.comment}实体详情", response = ${entity}VO.class)
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "id", name = "id", value = "${table.comment} 主键", dataType = "Long", required = true)
     })
     @GetMapping("/detail/{id}")
     public CommonResponse detail(@Valid @NotBlank(message = "主键不能为空")  @PathVariable("id") String id) {
-        ${entity}Vo data = ${table.serviceName?uncap_first}.get(id);
+        ${entity}VO data = ${table.serviceName?uncap_first}.get(id);
         return CommonResponse.success(data);
     }
 
@@ -156,8 +156,8 @@ public class ${table.controllerName} {
     @ApiOperation(value = "导出${table.comment}列表")
     @PostMapping(value = "/excel")
     public void excel(@Valid @RequestBody ${entity}QueryDTO param, HttpServletResponse response) {
-        List<${entity}Vo> ${entity}Vos = ${table.serviceName?uncap_first}.listNoPage(param);
-        EasyPoiExcelUtil.exportExcel(${entity}Vos, "${table.comment}列表", "${table.comment}列表", ${entity}Vo.class, "${table.comment}列表.xls", response);
+        List<${entity}VO> ${entity}VOs = ${table.serviceName?uncap_first}.listNoPage(param);
+        EasyPoiExcelUtil.exportExcel(${entity}VOs, "${table.comment}列表", "${table.comment}列表", ${entity}VO.class, "${table.comment}列表.xls", response);
     }
 </#if>
 }

@@ -1,7 +1,6 @@
 package com.tf.smart.community.wechat.common.entity.response;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.pagehelper.PageInfo;
 import com.tf.smart.community.wechat.common.enums.CommonResponseEnum;
 import com.tf.smart.community.wechat.common.enums.ReturnTypeEnum;
 

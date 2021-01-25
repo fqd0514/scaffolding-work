@@ -21,12 +21,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * 代码生成器类
- *
- * @author 刘通
- * @version 1.0
- * @date 2020/10/23
- */
+ * 代码生成器
+ * @Author Leeyoung
+ * @Date 2021/1/22
+ **/
 public class CodeGenerator1 {
 
     //自定义模板MAP
@@ -43,11 +41,11 @@ public class CodeGenerator1 {
                 .put("templates/entity.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/entity/po/{1}/{2}"
                         + StringPool.DOT_JAVA)
                 .put("templates/entityDto.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/entity/dto/{1}/{2}"
-                        + "Dto" + StringPool.DOT_JAVA)
+                        + "DTO" + StringPool.DOT_JAVA)
                 .put("templates/entityVo.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/entity/vo/{1}/{2}"
-                        + "Vo" + StringPool.DOT_JAVA)
-                .put("templates/entityQuery.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/entity/query/{1}/{2}"
-                        + "Query" + StringPool.DOT_JAVA)
+                        + "VO" + StringPool.DOT_JAVA)
+                .put("templates/entityQuery.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/entity/dto/{1}/{2}"
+                        + "QueryDTO" + StringPool.DOT_JAVA)
                 .put("/templates/mapper.xml.ftl" , "{0}/src/main/resources/mapper/{1}/{2}"
                         + "Mapper" + StringPool.DOT_XML)
                 .put("templates/mapper.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/dao/{1}/{2}"
@@ -116,8 +114,8 @@ public class CodeGenerator1 {
         strategy.setLogicDeleteFieldName("STATUS");
         //自动填充
         strategy.setTableFillList(Lists.newArrayList(new TableFill("CREATE_TIME" , FieldFill.INSERT),
-                new TableFill("CREATE_USER" , FieldFill.INSERT), new TableFill("UPDATE_TIME" , FieldFill.UPDATE),
-                new TableFill("UPDATE_USER" , FieldFill.UPDATE), new TableFill("STATUS" , FieldFill.INSERT)));
+                new TableFill("CREATE_USER_ID" , FieldFill.INSERT), new TableFill("UPDATE_TIME" , FieldFill.UPDATE),
+                new TableFill("UPDATE_USER_ID" , FieldFill.UPDATE), new TableFill("STATUS" , FieldFill.INSERT)));
 
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
 //        strategy.setSuperEntityColumns("id");
@@ -203,7 +201,7 @@ public class CodeGenerator1 {
      */
     private static DataSourceConfig getDataSourceConfig() {
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://192.168.133.50:3306/smart_community?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true");
+        dsc.setUrl("jdbc:mysql://192.168.133.50:3306/scaffold?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("123456");

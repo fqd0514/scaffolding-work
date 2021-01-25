@@ -34,9 +34,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
     </#if>
 </#if>
 <#if swagger2>
-@ApiModel(value="${entity}Vo对象", description="${table.comment!}")
+@ApiModel(value="${entity}VO对象", description="${table.comment!}")
 </#if>
-public class ${entity}Vo {
+public class ${entity}VO {
 
 <#if entitySerialVersionUID>
     private static final long serialVersionUID = 1L;
@@ -82,7 +82,7 @@ public class ${entity}Vo {
     }
 
     <#if chainModel>
-    public ${entity}Vo set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+    public ${entity}VO set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
     <#else>
     public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
     </#if>
@@ -114,7 +114,7 @@ public class ${entity}Vo {
 <#if !entityLombokModel>
     @Override
     public String toString() {
-        return "${entity}Vo{" +
+        return "${entity}VO{" +
     <#list table.fields as field>
         <#if field_index==0>
             "${field.propertyName}=" + ${field.propertyName} +

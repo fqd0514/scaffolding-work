@@ -1,9 +1,9 @@
 package ${package.Service}.${entity?lower_case};
 
 import ${package.Entity}.po.${entity?lower_case}.${entity};
-import ${package.Entity}.vo.${entity?lower_case}.${entity}Vo;
+import ${package.Entity}.vo.${entity?lower_case}.${entity}VO;
 import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
-import ${package.Entity}.query.${entity?lower_case}.${entity}QueryDTO;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}QueryDTO;
 import ${superServiceClassPackage};
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import java.util.List;
@@ -27,7 +27,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     *
     * @return
     */
-    List<${entity}Vo> listNoPage(${entity}QueryDTO param);
+    List<${entity}VO> listNoPage(${entity}QueryDTO param);
 
     /**
     * 获取实体list分页
@@ -35,7 +35,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param param
     * @return
     */
-    IPage<${entity}Vo> list(${entity}QueryDTO param);
+    IPage<${entity}VO> list(${entity}QueryDTO param);
 
     /**
     * 获取实体详情
@@ -43,7 +43,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param id
     * @return
     */
-    ${entity}Vo get(String id);
+    ${entity}VO get(String id);
 
     /**
     * 保存实体
