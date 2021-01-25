@@ -1,5 +1,6 @@
 package com.tf.smart.community.wechat.common.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.tf.smart.community.wechat.common.constant.CommonConstant;
 import com.tf.smart.community.wechat.common.enums.CommonResponseEnum;
 import com.tf.smart.community.wechat.common.exception.CommonBusinessException;
@@ -43,6 +44,7 @@ public class SessionUtils {
      */
     public static UserDetail getUserDetail() {
         String token = threadLocal.get().getToken();
+        UserDetail userDetail = (UserDetail) JSON.parseObject(user, UserDetail.class);
         String userId = String.valueOf(cacheUtil.get(CommonConstant.REDIS_TOKEN + token));
 
         if (StringUtils.isBlank(token) || StringUtils.isBlank(userId)) {
