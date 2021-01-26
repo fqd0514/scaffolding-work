@@ -43,22 +43,23 @@ public class SessionUtils {
      * @return {@link UserDetail}
      */
     public static UserDetail getUserDetail() {
-        String token = threadLocal.get().getToken();
-        UserDetail userDetail = (UserDetail) JSON.parseObject(user, UserDetail.class);
-        String userId = String.valueOf(cacheUtil.get(CommonConstant.REDIS_TOKEN + token));
-
-        if (StringUtils.isBlank(token) || StringUtils.isBlank(userId)) {
-            throw new CommonBusinessException(CommonResponseEnum.INVALID_PARAMTER, "Token 与用户主键不能为空");
-        }
-
-        try {
-//            UserDetail userDetail = authService.getUserDetail(token, userId);
-//
-//            return userDetail;
-        } catch (Exception ex) {
-            throw new CommonBusinessException(CommonResponseEnum.SYSTEM_ERROR, "获取用户详情失败");
-        }
         return null;
+//        String token = threadLocal.get().getToken();
+//        UserDetail userDetail = (UserDetail) JSON.parseObject(user, UserDetail.class);
+//        String userId = String.valueOf(cacheUtil.get(CommonConstant.REDIS_TOKEN + token));
+//
+//        if (StringUtils.isBlank(token) || StringUtils.isBlank(userId)) {
+//            throw new CommonBusinessException(CommonResponseEnum.INVALID_PARAMTER, "Token 与用户主键不能为空");
+//        }
+//
+//        try {
+////            UserDetail userDetail = authService.getUserDetail(token, userId);
+////
+////            return userDetail;
+//        } catch (Exception ex) {
+//            throw new CommonBusinessException(CommonResponseEnum.SYSTEM_ERROR, "获取用户详情失败");
+//        }
+//        return null;
     }
 
 

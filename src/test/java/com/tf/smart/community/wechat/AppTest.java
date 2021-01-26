@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.text.MessageFormat;
 import java.util.List;
 
-import static com.tf.smart.community.wechat.common.constant.CommonConstant.WECHAT_ACCESS_TOKEN;
 
 /**
  * 应用测试
