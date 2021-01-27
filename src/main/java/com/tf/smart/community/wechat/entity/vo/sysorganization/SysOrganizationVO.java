@@ -74,13 +74,4 @@ public class SysOrganizationVO {
     @Excel(name = "所属机构ID，以逗号分隔", orderNum = "11", width = 30)
     private String organizationIds;
 
-    @ApiModelProperty(value = "所属部门ID，以逗号分隔")
-    @Excel(name = "所属部门ID，以逗号分隔", orderNum = "12", width = 30)
-    private String departmentIds;
-
-    @ApiModelProperty(value = "类型 0-机构、1-部门")
-    @Excel(name = "类型 0-机构、1-部门", orderNum = "13", width = 30)
-    private Long type;
-
-
 }

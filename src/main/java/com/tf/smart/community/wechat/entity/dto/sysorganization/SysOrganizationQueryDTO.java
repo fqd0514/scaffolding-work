@@ -69,11 +69,4 @@ public class SysOrganizationQueryDTO extends PageDTO {
     @ApiModelProperty(value = "所属机构ID，以逗号分隔")
     private String organizationIds;
 
-    @ApiModelProperty(value = "所属部门ID，以逗号分隔")
-    private String departmentIds;
-
-    @ApiModelProperty(value = "类型 0-机构、1-部门")
-    private Long type;
-
-
 }

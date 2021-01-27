@@ -1,10 +1,9 @@
 package com.tf.smart.community.wechat.entity.po.sysorganization;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.tf.smart.community.wechat.entity.dto.base.PageDTO;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
@@ -50,7 +49,7 @@ public class SysOrganization {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "修改人id")
     @TableField(fill = FieldFill.UPDATE)
@@ -58,19 +57,11 @@ public class SysOrganization {
 
     @ApiModelProperty(value = "最后操作时间")
     @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;
 
     @ApiModelProperty(value = "所属机构ID，以逗号分隔")
     private String organizationIds;
-
-    @ApiModelProperty(value = "所属部门ID，以逗号分隔")
-    private String departmentIds;
-
-    @ApiModelProperty(value = "类型 0-机构、1-部门")
-    private Long type;
-
-
 }

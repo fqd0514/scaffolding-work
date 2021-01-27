@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "登录控制器-LeeYoung", value = "登录控制器-LeeYoung")
 public class LoginController {
 
-    public CommonResponse login(@RequestBody LoginBodyDTO loginBody){
-
-    }
+//    public CommonResponse login(){
+//
+//    }
 }

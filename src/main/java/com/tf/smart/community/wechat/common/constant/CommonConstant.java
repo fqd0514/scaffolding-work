@@ -16,20 +16,9 @@ public class CommonConstant {
     //redis登录key
     public static final String REDIS_TOKEN = "token:";
 
-
     //Redis 缓存序列号(format: sys_sequence:{sequenceGroup}:{sequenceType})
     public static final String REDIS_SEQ = "sys_sequence:%s:%s";
     public static final String REDIS_RESIDENT_LABEL_INIT = "resident_label:init";
-    public static final String REDIS_SYS_CITY = "sys:city";
-    public static final String REDIS_SYS_CITY_INIT = "sys:city:init";
-    public static final String REDIS_SYS_DISTRICT = "sys:district";
-    public static final String REDIS_SYS_DISTRICT_INIT = "sys:district:init";
-    public static final String REDIS_SYS_STREET = "sys:street";
-    public static final String REDIS_SYS_STREET_INIT = "sys:street:init";
-    public static final String REDIS_SYS_COMMUNITY = "sys:community";
-    public static final String REDIS_SYS_COMMUNITY_INIT = "sys:community:init";
-    public static final String REDIS_SYS_VILLAGE = "sys:village";
-    public static final String REDIS_SYS_VILLAGE_INIT = "sys:village:init";
 
     //逗号
     public static final String COMMA = ",";
@@ -44,15 +33,11 @@ public class CommonConstant {
     //点
     public static final String DOT = ".";
 
+    //0的string状态
+    public static final String ZERO_STR = "0";
 
-    public static final String CODE_NAME_LABEL_TYPE = "label_type";
-    public static final String CODE_NAME_ACTIVITY_STATUS = "activity_status";
-    public static final String CODE_NAME_ACTIVITY_TYPE = "activity_type";
-    public static final String CODE_NAME_BULLETIN_STATUS = "bulletin_status";
-    public static final String CODE_NAME_GENDER = "gender";
-    public static final String CODE_NAME_CERTIFICATION_TYPE = "certification_type";
-    public static final String CODE_NAME_VOTING_MODE = "voting_mode";
-    public static final String CODE_NAME_VOTING_STATUS = "voting_status";
+    //0的integer状态
+    public static final Integer ZERO_INT = 0;
 
 
     public static final String REDIS_LOCK_ACTIVITY = "REDIS_LOCK_ACTIVITY";
