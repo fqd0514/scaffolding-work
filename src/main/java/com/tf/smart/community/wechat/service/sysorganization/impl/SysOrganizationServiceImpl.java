@@ -15,6 +15,7 @@ import com.tf.smart.community.wechat.common.enums.CommonResponseEnum;
 import com.tf.smart.community.wechat.common.exception.CommonBusinessException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -176,48 +178,103 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     List<SysOrganizationTreeVO> sysOrganizationTreeVoList = new ArrayList<>();
 
     QueryWrapper<SysOrganization> queryWrapper = Wrappers.query();
+    queryWrapper.eq("is_del",DeleteEnum.IS_NOT_DELETE.getCode());
     List<SysOrganization> sysOrganizationList = list(queryWrapper);
 
-    if(ObjectUtils.isEmpty(sysOrganizationList)){
-        return sysOrganizationTreeVoList;
+    if (ObjectUtils.isEmpty(sysOrganizationList)) {
+      return sysOrganizationTreeVoList;
     }
 
     //先根据等级分组
     Map<String, List<SysOrganization>> orgLevelMap = sysOrganizationList.stream().collect(Collectors.groupingBy(SysOrganization::getLevel));
 
-    int size = orgLevelMap.size();
-    if(Integer.valueOf(CommonConstant.LEVEL_TOP) < size){
-      for (int i = size; i > Integer.valueOf(CommonConstant.LEVEL_TOP); i--) {
-        SysOrganizationTreeVO sysOrganizationTreeVO = new SysOrganizationTreeVO();
-        List<SysOrganizationVO> sysOrganizationVOList = new ArrayList<>();
-        List<SysOrganization> orgSubList = orgLevelMap.get(String.valueOf(i));
-        List<SysOrganization> orgFatherList = orgLevelMap.get(String.valueOf(i-Integer.valueOf(CommonConstant.LEVEL_TOP)));
-        Map<String, List<SysOrganization>> orgSubByPidMap = orgSubList.stream().collect(Collectors.groupingBy(SysOrganization::getPid));
-        for (SysOrganization orgFather : orgFatherList){
-          SysOrganizationVO sysOrganizationVO = new SysOrganizationVO();
-          BeanUtils.copyProperties(orgFather,sysOrganizationVO);
-          List<SysOrganization> subOrgList = orgSubByPidMap.get(orgFather.getId());
-          List<SysOrganizationVO> subOrgVO = new ArrayList<>();
-          subOrgList.forEach(org->{
-            SysOrganizationVO orgVO = new SysOrganizationVO();
-            BeanUtils.copyProperties(org,orgVO);
-            subOrgVO.add(orgVO);
-          });
-          sysOrganizationVO.setChildren(subOrgVO);
-          sysOrganizationVOList.add(sysOrganizationVO);
-        }
-        sysOrganizationTreeVO.setChildren(sysOrganizationVOList);
-        sysOrganizationTreeVoList.add(sysOrganizationTreeVO);
-      }
-    }else {
-        sysOrganizationList.forEach(org->{
-          SysOrganizationTreeVO orgVO = new SysOrganizationTreeVO();
-          BeanUtils.copyProperties(org,orgVO);
-          sysOrganizationTreeVoList.add(orgVO);
-        });
-    }
+    List<SysOrganizationVO> sysOrganizationVOS = treeRecursion(orgLevelMap, Integer.valueOf(CommonConstant.LEVEL_TOP));
+
+    sysOrganizationVOS.forEach(org->{
+      SysOrganizationTreeVO sysOrganizationTreeVO = new SysOrganizationTreeVO();
+      BeanUtils.copyProperties(org,sysOrganizationTreeVO);
+      sysOrganizationTreeVoList.add(sysOrganizationTreeVO);
+    });
 
     return sysOrganizationTreeVoList;
+  }
+
+  public List<SysOrganizationVO> treeRecursion(Map<String, List<SysOrganization>> orgLevelMap,Integer level){
+
+    if(!ObjectUtils.isEmpty(orgLevelMap.get(String.valueOf(level+Integer.valueOf(CommonConstant.LEVEL_TOP))))){
+
+      //递归向下查找
+      List<SysOrganizationVO> treeList = treeRecursion(orgLevelMap, level+Integer.valueOf(CommonConstant.LEVEL_TOP));
+
+      if(level.equals(Integer.valueOf(CommonConstant.LEVEL_TOP))){
+        return treeList;
+      }
+      List<SysOrganizationVO> fatherTree = getFatherTree(orgLevelMap, level,treeList);
+      return fatherTree;
+
+    }else {
+      //算出最后一层和倒数第二层的结果
+      List<SysOrganizationVO> fatherTree = getFatherTree(orgLevelMap, level,null);
+      return fatherTree;
+    }
+  }
+
+
+  private List<SysOrganizationVO> getFatherTree(Map<String, List<SysOrganization>> orgLevelMap,Integer level,List<SysOrganizationVO> subTreeList){
+    List<SysOrganizationVO> treeListReturn = new ArrayList<>();
+
+    //子
+    List<SysOrganization> subAllOrgList = orgLevelMap.get(String.valueOf(level));
+    Map<String, List<SysOrganization>> subOrgByPidMap = subAllOrgList.stream().collect(Collectors.groupingBy(SysOrganization::getPid));
+
+    //父
+    List<SysOrganization> fatherAllOrgList = orgLevelMap.get(String.valueOf(level - Integer.valueOf(CommonConstant.LEVEL_TOP)));
+
+    //已经存在子集
+    if(!ObjectUtils.isEmpty(subTreeList)){
+      Map<String, List<SysOrganizationVO>> alreadySubMap = subTreeList.stream().collect(Collectors.groupingBy(SysOrganizationVO::getPid));
+
+      //赋值
+      for (SysOrganization sysOrganization : fatherAllOrgList) {
+        SysOrganizationVO sysOrganizationTreeVO = new SysOrganizationVO();
+        List<SysOrganization> sysOrganizations = subOrgByPidMap.get(sysOrganization.getId());
+        BeanUtils.copyProperties(sysOrganization,sysOrganizationTreeVO);
+
+        if(ObjectUtils.isEmpty(sysOrganizations)){
+          treeListReturn.add(sysOrganizationTreeVO);
+          continue;
+        }
+
+        List<SysOrganizationVO> sysOrganizationVOS = new ArrayList<>(sysOrganizations.size());
+        sysOrganizations.forEach(org->{
+          SysOrganizationVO sysOrganizationVO = new SysOrganizationVO();
+          BeanUtils.copyProperties(org,sysOrganizationVO);
+          sysOrganizationVOS.add(sysOrganizationVO);
+        });
+
+        sysOrganizationTreeVO.setChildren(alreadySubMap.get(sysOrganization.getId()));
+        treeListReturn.add(sysOrganizationTreeVO);
+      }
+    }else {
+      //赋值
+      for (SysOrganization sysOrganization : fatherAllOrgList) {
+        List<SysOrganization> sysOrganizations = subOrgByPidMap.get(sysOrganization.getId());
+        SysOrganizationVO sysOrganizationTreeVO = new SysOrganizationVO();
+        BeanUtils.copyProperties(sysOrganization,sysOrganizationTreeVO);
+        List<SysOrganizationVO> sysOrganizationVOS = new ArrayList<>(sysOrganizations.size());
+        sysOrganizations.forEach(org->{
+          SysOrganizationVO sysOrganizationVO = new SysOrganizationVO();
+          BeanUtils.copyProperties(org,sysOrganizationVO);
+          sysOrganizationVOS.add(sysOrganizationVO);
+        });
+
+        sysOrganizationTreeVO.setChildren(sysOrganizationVOS);
+
+        treeListReturn.add(sysOrganizationTreeVO);
+      }
+
+    }
+      return treeListReturn;
   }
 
   /**
