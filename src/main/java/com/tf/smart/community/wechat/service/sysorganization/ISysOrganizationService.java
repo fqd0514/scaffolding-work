@@ -1,6 +1,7 @@
 package com.tf.smart.community.wechat.service.sysorganization;
 
 import com.tf.smart.community.wechat.entity.po.sysorganization.SysOrganization;
+import com.tf.smart.community.wechat.entity.vo.sysorganization.SysOrganizationTreeVO;
 import com.tf.smart.community.wechat.entity.vo.sysorganization.SysOrganizationVO;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationDTO;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationQueryDTO;
@@ -65,4 +66,13 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
     * @return
     */
     boolean deleteByID(String id);
+
+    /**
+     * 机构树
+     * @param  sysOrganizationDTO 查询条件
+     * @return java.util.List<SysOrganizationTreeVo>
+     * @Author Leeyoung
+     * @Date 2021/1/27
+     **/
+    List<SysOrganizationTreeVO> tree(SysOrganizationDTO sysOrganizationDTO);
 }

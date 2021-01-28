@@ -1,14 +1,13 @@
 package com.tf.smart.community.wechat.service.sysorganization.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.tf.smart.community.wechat.common.constant.CommonConstant;
-import com.tf.smart.community.wechat.common.utils.SessionUtils;
+import com.tf.smart.community.wechat.common.enums.DeleteEnum;
 import com.tf.smart.community.wechat.common.utils.UuidUtil;
-import com.tf.smart.community.wechat.entity.auth.UserDetail;
 import com.tf.smart.community.wechat.entity.po.sysorganization.SysOrganization;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationDTO;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationQueryDTO;
 import com.tf.smart.community.wechat.dao.sysorganization.SysOrganizationMapper;
+import com.tf.smart.community.wechat.entity.vo.sysorganization.SysOrganizationTreeVO;
 import com.tf.smart.community.wechat.service.sysorganization.ISysOrganizationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tf.smart.community.wechat.entity.vo.sysorganization.SysOrganizationVO;
@@ -21,14 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.tf.smart.community.wechat.common.enums.StatusEnum;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -129,7 +125,7 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     String id = UuidUtil.getUUID32();
     sysOrganization.setId(id);
     sysOrganization.setLevel(String.valueOf(level));
-    sysOrganization.setIsDel("F");
+    sysOrganization.setIsDel(DeleteEnum.IS_NOT_DELETE.getCode());
 
     //todo  登录做完后修改
     sysOrganization.setCreateUserId("1");
@@ -166,6 +162,62 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     SysOrganization sysOrganization = this.getById(id);
     CommonResponseEnum.RESULT_IS_NULL.assertNotNull(sysOrganization);
     return removeById(id);
+  }
+
+  /**
+   * 获取机构树
+   * @param sysOrganizationDTO 查询条件
+   * @return java.util.List<com.tf.smart.community.wechat.entity.vo.sysorganization.SysOrganizationVO>
+   * @Author Leeyoung
+   * @Date 2021/1/27
+   **/
+  @Override
+  public List<SysOrganizationTreeVO> tree(SysOrganizationDTO sysOrganizationDTO) {
+    List<SysOrganizationTreeVO> sysOrganizationTreeVoList = new ArrayList<>();
+
+    QueryWrapper<SysOrganization> queryWrapper = Wrappers.query();
+    List<SysOrganization> sysOrganizationList = list(queryWrapper);
+
+    if(ObjectUtils.isEmpty(sysOrganizationList)){
+        return sysOrganizationTreeVoList;
+    }
+
+    //先根据等级分组
+    Map<String, List<SysOrganization>> orgLevelMap = sysOrganizationList.stream().collect(Collectors.groupingBy(SysOrganization::getLevel));
+
+    int size = orgLevelMap.size();
+    if(Integer.valueOf(CommonConstant.LEVEL_TOP) < size){
+      for (int i = size; i > Integer.valueOf(CommonConstant.LEVEL_TOP); i--) {
+        SysOrganizationTreeVO sysOrganizationTreeVO = new SysOrganizationTreeVO();
+        List<SysOrganizationVO> sysOrganizationVOList = new ArrayList<>();
+        List<SysOrganization> orgSubList = orgLevelMap.get(String.valueOf(i));
+        List<SysOrganization> orgFatherList = orgLevelMap.get(String.valueOf(i-Integer.valueOf(CommonConstant.LEVEL_TOP)));
+        Map<String, List<SysOrganization>> orgSubByPidMap = orgSubList.stream().collect(Collectors.groupingBy(SysOrganization::getPid));
+        for (SysOrganization orgFather : orgFatherList){
+          SysOrganizationVO sysOrganizationVO = new SysOrganizationVO();
+          BeanUtils.copyProperties(orgFather,sysOrganizationVO);
+          List<SysOrganization> subOrgList = orgSubByPidMap.get(orgFather.getId());
+          List<SysOrganizationVO> subOrgVO = new ArrayList<>();
+          subOrgList.forEach(org->{
+            SysOrganizationVO orgVO = new SysOrganizationVO();
+            BeanUtils.copyProperties(org,orgVO);
+            subOrgVO.add(orgVO);
+          });
+          sysOrganizationVO.setChildren(subOrgVO);
+          sysOrganizationVOList.add(sysOrganizationVO);
+        }
+        sysOrganizationTreeVO.setChildren(sysOrganizationVOList);
+        sysOrganizationTreeVoList.add(sysOrganizationTreeVO);
+      }
+    }else {
+        sysOrganizationList.forEach(org->{
+          SysOrganizationTreeVO orgVO = new SysOrganizationTreeVO();
+          BeanUtils.copyProperties(org,orgVO);
+          sysOrganizationTreeVoList.add(orgVO);
+        });
+    }
+
+    return sysOrganizationTreeVoList;
   }
 
   /**

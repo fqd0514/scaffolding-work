@@ -1,5 +1,6 @@
 package com.tf.smart.community.wechat.controller.sysorganization;
 
+import com.tf.smart.community.wechat.entity.vo.sysorganization.SysOrganizationTreeVO;
 import com.tf.smart.community.wechat.entity.vo.sysorganization.SysOrganizationVO;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationDTO;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationQueryDTO;
@@ -135,5 +136,19 @@ public class SysOrganizationController {
     public void excel(@Valid @RequestBody SysOrganizationQueryDTO param, HttpServletResponse response) {
         List<SysOrganizationVO> SysOrganizationVOs = iSysOrganizationService.listNoPage(param);
         EasyPoiExcelUtil.exportExcel(SysOrganizationVOs, "机构表列表", "机构表列表", SysOrganizationVO.class, "机构表列表.xls", response);
+    }
+
+    /**
+     * 机构树
+     * @param sysOrganizationDTO 机构查询条件
+     * @return com.tf.smart.community.wechat.common.entity.response.CommonResponse<java.util.List<SysOrganizationTreeVo>>
+     * @Author Leeyoung
+     * @Date 2021/1/27
+     **/
+    @ApiOperation(value = "机构树", notes = "机构树")
+    @PostMapping("/tree")
+    public CommonResponse<List<SysOrganizationTreeVO>> tree(@RequestBody SysOrganizationDTO sysOrganizationDTO) {
+        List<SysOrganizationTreeVO> tree = iSysOrganizationService.tree(sysOrganizationDTO);
+        return CommonResponse.success(tree);
     }
 }

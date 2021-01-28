@@ -1,11 +1,14 @@
 package com.tf.smart.community.wechat.entity.dto.sysorganization;;
 
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tf.smart.community.wechat.entity.dto.base.PageDTO;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,6 +26,7 @@ public class SysOrganizationDTO {
 
 
     @ApiModelProperty(value = "机构ID")
+    @JsonIgnore
     private String id;
 
     @ApiModelProperty(value = "机构名称")
@@ -38,18 +42,23 @@ public class SysOrganizationDTO {
     private String address;
 
     @ApiModelProperty(value = "是否删除 0-未删除  1-已删除")
+    @JsonIgnore
     private String isDel;
 
     @ApiModelProperty(value = "创建人")
+    @JsonIgnore
     private String createUserId;
 
     @ApiModelProperty(value = "创建时间")
+    @JsonIgnore
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "修改人id")
+    @JsonIgnore
     private String updateUserId;
 
     @ApiModelProperty(value = "最后操作时间")
+    @JsonIgnore
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "备注")

@@ -1,6 +1,8 @@
 package com.tf.smart.community.wechat.entity.vo.sysorganization;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import com.tf.smart.community.wechat.entity.dto.base.PageDTO;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -73,5 +75,8 @@ public class SysOrganizationVO {
     @ApiModelProperty(value = "所属机构ID，以逗号分隔")
     @Excel(name = "所属机构ID，以逗号分隔", orderNum = "11", width = 30)
     private String organizationIds;
+
+    @ApiModelProperty(value = "子机构详情")
+    private List<SysOrganizationVO> children;
 
 }

@@ -8,14 +8,12 @@ import com.tf.smart.community.wechat.service.sysuser.ISysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tf.smart.community.wechat.entity.vo.sysuser.SysUserVO;
 import com.tf.smart.community.wechat.common.enums.CommonResponseEnum;
-import com.tf.smart.community.wechat.common.exception.CommonBusinessException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.tf.smart.community.wechat.common.enums.StatusEnum;
 
 import java.util.ArrayList;
 import java.util.List;

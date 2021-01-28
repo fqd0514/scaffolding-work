@@ -39,6 +39,9 @@ public class CommonConstant {
     //0的integer状态
     public static final Integer ZERO_INT = 0;
 
+    //最高级别
+    public static final String LEVEL_TOP = "1";
+
 
     public static final String REDIS_LOCK_ACTIVITY = "REDIS_LOCK_ACTIVITY";
 

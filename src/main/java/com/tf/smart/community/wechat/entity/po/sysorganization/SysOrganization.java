@@ -64,4 +64,5 @@ public class SysOrganization {
 
     @ApiModelProperty(value = "所属机构ID，以逗号分隔")
     private String organizationIds;
+
 }
