@@ -3,12 +3,10 @@ package com.tf.smart.community.wechat.entity.po.sysorganization;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
+import com.tf.smart.community.wechat.service.PojoConvertor;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 
 /**
@@ -21,7 +19,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value="SysOrganization对象", description="机构表")
-public class SysOrganization {
+public class SysOrganization  implements PojoConvertor {
 
 
     @ApiModelProperty(value = "机构ID")
@@ -41,6 +39,7 @@ public class SysOrganization {
     private String address;
 
     @ApiModelProperty(value = "是否删除 0-未删除  1-已删除")
+    @TableLogic
     private String isDel;
 
     @ApiModelProperty(value = "创建人")
@@ -49,7 +48,7 @@ public class SysOrganization {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "修改人id")
     @TableField(fill = FieldFill.UPDATE)
@@ -57,7 +56,7 @@ public class SysOrganization {
 
     @ApiModelProperty(value = "最后操作时间")
     @TableField(fill = FieldFill.UPDATE)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;

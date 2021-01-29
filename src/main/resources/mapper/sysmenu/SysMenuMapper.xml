@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.smart.community.wechat.dao.sysmenu.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tf.smart.community.wechat.entity.po.sysmenu.SysMenu">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="is_root" property="isRoot" />
+        <result column="parent_id" property="parentId" />
+        <result column="level" property="level" />
+        <result column="order_num" property="orderNum" />
+        <result column="url" property="url" />
+        <result column="icon" property="icon" />
+        <result column="power_type" property="powerType" />
+        <result column="function_type" property="functionType" />
+        <result column="link_type" property="linkType" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="update_Time" property="updateTime" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="is_del" property="isDel" />
+        <result column="platform_id" property="platformId" />
+        <result column="permission_code" property="permissionCode" />
+        <result column="display_mode" property="displayMode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, is_root, parent_id, level, order_num, url, icon, power_type, function_type, link_type, create_time, create_user_id, update_Time, update_user_id, is_del, platform_id, permission_code, display_mode
+    </sql>
+
+</mapper>

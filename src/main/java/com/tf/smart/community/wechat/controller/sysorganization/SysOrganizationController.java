@@ -5,12 +5,9 @@ import com.tf.smart.community.wechat.entity.vo.sysorganization.SysOrganizationVO
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationDTO;
 import com.tf.smart.community.wechat.entity.dto.sysorganization.SysOrganizationQueryDTO;
 import com.tf.smart.community.wechat.service.sysorganization.ISysOrganizationService;
-import com.tf.smart.community.wechat.common.annotation.OperateLog;
 import com.tf.smart.community.wechat.common.validation.Save;
 import com.tf.smart.community.wechat.common.validation.Update;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.tf.smart.community.wechat.common.constant.ReturnTypeEnum;
-import com.tf.smart.community.wechat.common.enums.CommonResponseEnum;
 import com.tf.smart.community.wechat.common.entity.response.CommonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

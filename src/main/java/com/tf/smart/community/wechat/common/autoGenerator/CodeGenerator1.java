@@ -46,6 +46,8 @@ public class CodeGenerator1 {
                         + "VO" + StringPool.DOT_JAVA)
                 .put("templates/entityQuery.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/entity/dto/{1}/{2}"
                         + "QueryDTO" + StringPool.DOT_JAVA)
+                .put("templates/entityUpdateDto.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/entity/dto/{1}/{2}"
+                        + "UpdateDTO" + StringPool.DOT_JAVA)
                 .put("/templates/mapper.xml.ftl" , "{0}/src/main/resources/mapper/{1}/{2}"
                         + "Mapper" + StringPool.DOT_XML)
                 .put("templates/mapper.java.ftl" , "{0}/src/main/java/com/tf/smart/community/wechat/dao/{1}/{2}"
@@ -111,16 +113,16 @@ public class CodeGenerator1 {
         strategy.setRestControllerStyle(true);
         strategy.setEntitySerialVersionUID(false);
         //逻辑删除
-        strategy.setLogicDeleteFieldName("STATUS");
+        strategy.setLogicDeleteFieldName("is_del");
         //自动填充
         strategy.setTableFillList(Lists.newArrayList(new TableFill("CREATE_TIME" , FieldFill.INSERT),
                 new TableFill("CREATE_USER_ID" , FieldFill.INSERT), new TableFill("UPDATE_TIME" , FieldFill.UPDATE),
                 new TableFill("UPDATE_USER_ID" , FieldFill.UPDATE), new TableFill("STATUS" , FieldFill.INSERT)));
 
+        // 写于父类中的公共字段
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
-//        strategy.setSuperEntityColumns("id");
-        // strategy.setControllerMappingHyphenStyle(true);
-//        strategy.setTablePrefix("sys");
+        strategy.setControllerMappingHyphenStyle(true);
+
         return strategy;
     }
 

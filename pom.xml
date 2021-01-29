@@ -26,12 +26,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!-- PAGEHELPER-SPRING-BOOT-STARTER -->
-<!--        <dependency>-->
-<!--            <groupId>com.github.pagehelper</groupId>-->
-<!--            <artifactId>pagehelper-spring-boot-starter</artifactId>-->
-<!--            <version>1.2.5</version>-->
-<!--        </dependency>-->
+
         <!-- SPRING-BOOT-STARTER-WEB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -132,7 +127,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.12</version>
+            <version>1.1.20</version>
         </dependency>
 
         <!-- JODA-TIME -->

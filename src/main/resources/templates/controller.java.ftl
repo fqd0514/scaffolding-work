@@ -2,6 +2,7 @@ package ${package.Controller}.${entity?lower_case};
 
 import ${package.Entity}.vo.${entity?lower_case}.${entity}VO;
 import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}UpdateDTO;
 import ${package.Entity}.dto.${entity?lower_case}.${entity}QueryDTO;
 import ${package.Service}.${entity?lower_case}.${table.serviceName};
 <#if cfg.isRecordOperateLog?string("true","flase") ='true'>
@@ -126,7 +127,7 @@ public class ${table.controllerName} {
      **/
     @ApiOperation(value = "编辑${table.comment}实体")
     @PutMapping("/update")
-    public CommonResponse update(@Validated(Update.class) @RequestBody ${entity}DTO param) {
+    public CommonResponse update(@Validated(Update.class) @RequestBody ${entity}UpdateDTO param) {
         boolean isSuccess = ${table.serviceName?uncap_first}.update(param);
         return CommonResponse.success(isSuccess);
     }

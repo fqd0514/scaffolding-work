@@ -2,6 +2,7 @@ package ${package.Service}.${entity?lower_case}.impl;
 
 import ${package.Entity}.po.${entity?lower_case}.${entity};
 import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}UpdateDTO;
 import ${package.Entity}.dto.${entity?lower_case}.${entity}QueryDTO;
 import ${package.Mapper}.${entity?lower_case}.${table.mapperName};
 import ${package.Service}.${entity?lower_case}.${table.serviceName};
@@ -15,7 +16,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.tf.smart.community.wechat.common.enums.StatusEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +112,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
    * @Date ${date}
    **/
   @Override
-  public boolean update(${entity}DTO param) {
+  public boolean update(${entity}UpdateDTO param) {
     ${entity} ${entity?uncap_first} = new ${entity}();
     BeanUtils.copyProperties(param, ${entity?uncap_first});
     return updateById(${entity?uncap_first});

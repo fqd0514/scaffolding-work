@@ -2,6 +2,7 @@ package ${package.Service}.${entity?lower_case};
 
 import ${package.Entity}.po.${entity?lower_case}.${entity};
 import ${package.Entity}.vo.${entity?lower_case}.${entity}VO;
+import ${package.Entity}.dto.${entity?lower_case}.${entity}UpdateDTO;
 import ${package.Entity}.dto.${entity?lower_case}.${entity}DTO;
 import ${package.Entity}.dto.${entity?lower_case}.${entity}QueryDTO;
 import ${superServiceClassPackage};
@@ -59,7 +60,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param param
     * @return
     */
-    boolean update(${entity}DTO param);
+    boolean update(${entity}UpdateDTO param);
 
     /**
     * 根据ID删除
