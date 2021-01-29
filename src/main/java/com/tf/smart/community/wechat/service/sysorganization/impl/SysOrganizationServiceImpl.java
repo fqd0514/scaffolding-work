@@ -15,7 +15,6 @@ import com.tf.smart.community.wechat.common.enums.CommonResponseEnum;
 import com.tf.smart.community.wechat.common.exception.CommonBusinessException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -107,6 +105,7 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
   **/
   @Override
   public boolean save(SysOrganizationDTO param) {
+    //todo 登录写完后写
 //    SessionUtils.getUserDetail()
 
     if (param.getPid().equals(CommonConstant.ZERO_STR)) {
@@ -261,6 +260,10 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
         List<SysOrganization> sysOrganizations = subOrgByPidMap.get(sysOrganization.getId());
         SysOrganizationVO sysOrganizationTreeVO = new SysOrganizationVO();
         BeanUtils.copyProperties(sysOrganization,sysOrganizationTreeVO);
+        if(ObjectUtils.isEmpty(sysOrganizations)){
+          treeListReturn.add(sysOrganizationTreeVO);
+          continue;
+        }
         List<SysOrganizationVO> sysOrganizationVOS = new ArrayList<>(sysOrganizations.size());
         sysOrganizations.forEach(org->{
           SysOrganizationVO sysOrganizationVO = new SysOrganizationVO();
