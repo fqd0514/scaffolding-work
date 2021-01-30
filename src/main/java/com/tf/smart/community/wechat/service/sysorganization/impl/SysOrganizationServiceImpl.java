@@ -180,29 +180,108 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     List<SysOrganizationTreeVO> sysOrganizationTreeVoList = new ArrayList<>();
     SysOrganization sysOrganization = new SysOrganization();
     BeanUtils.copyProperties(sysOrganizationDTO,sysOrganization);
-    QueryWrapper<SysOrganization> queryWrapper = Wrappers.query(sysOrganization);
 
+    //获取全部节点
+    QueryWrapper<SysOrganization> queryWrapper = Wrappers.query();
     List<SysOrganization> sysOrganizationList = list(queryWrapper);
 
     if (ObjectUtils.isEmpty(sysOrganizationList)) {
       return sysOrganizationTreeVoList;
     }
 
-    Map<String, List<SysOrganization>> orgByPidMap = sysOrganizationList.stream().collect(Collectors.groupingBy(SysOrganization::getLevel));
-    List<String> level = new ArrayList<>(orgByPidMap.size());
-    for(Map.Entry<String,List<SysOrganization>> map : orgByPidMap.entrySet()){
-      level.add(map.getKey());
+    Map<String,List<SysOrganization>> treeSysOrganizationMap = new HashMap<>(sysOrganizationList.size());
+
+    //根据name过滤及节点
+    if(!ObjectUtils.isEmpty(sysOrganization.getName())){
+      getAllSysOrganizationByName(sysOrganizationDTO.getName(),sysOrganizationList, treeSysOrganizationMap);
+    }else {
+      treeSysOrganizationMap = sysOrganizationList.stream().collect(Collectors.groupingBy(SysOrganization::getLevel));
     }
-    String[] levelStr = level.stream().toArray(String[]::new);
-    Arrays.sort(levelStr);
 
     List<SysOrganizationTreeVO> sysOrganizationTreeVOList = new ArrayList<>();
-    for (SysOrganization obj:sysOrganizationList) {
-      SysOrganizationTreeVO sysOrganizationTreeVO = obj.convertTo(SysOrganizationTreeVO.class);
-      sysOrganizationTreeVOList.add(sysOrganizationTreeVO);
+    for (Map.Entry<String,List<SysOrganization>> map : treeSysOrganizationMap.entrySet()){
+      map.getValue().forEach(org->{
+        SysOrganizationTreeVO sysOrganizationTreeVO = new SysOrganizationTreeVO();
+        BeanUtils.copyProperties(org,sysOrganizationTreeVO);
+        sysOrganizationTreeVOList.add(sysOrganizationTreeVO);
+      });
     }
-    return List2Tree.bulidTree(sysOrganizationTreeVOList,levelStr[CommonConstant.ZERO_INT]);
 
+    //根据过滤后的节点生成树
+    return List2Tree.bulidTree(sysOrganizationTreeVOList,CommonConstant.ZERO_STR);
+
+  }
+
+  /**
+   * 根据节点名称过滤节点
+   * @param name  节点名称
+   * @param sysOrganizations  全部节点集合
+   * @param treeSysOrganizationMap  存储map
+   * @Author Leeyoung
+   * @Date 2021/1/30
+   **/
+  private void getAllSysOrganizationByName(String name,
+                                           List<SysOrganization> sysOrganizations,
+                                           Map<String, List<SysOrganization>> treeSysOrganizationMap) {
+
+    sysOrganizations.forEach(sysOrganization -> {
+      if(sysOrganization.getName().contains(name)){
+        addFilterList(sysOrganization,treeSysOrganizationMap);
+        getParentMap(sysOrganization,sysOrganizations,treeSysOrganizationMap);
+      }
+    });
+  }
+
+  /**
+   * 过滤已经添加的节点
+   * @param sysOrganization 单个节点
+   * @param treeSysOrganizationMap 存储map
+   * @Author Leeyoung
+   * @Date 2021/1/30
+   **/
+  private void addFilterList(SysOrganization sysOrganization, Map<String, List<SysOrganization>> treeSysOrganizationMap){
+
+    String level =  sysOrganization.getLevel();
+    if(treeSysOrganizationMap.get(level) == null){
+      List<SysOrganization> sysOrganizationList = new ArrayList<>();
+      sysOrganizationList.add(sysOrganization);
+      treeSysOrganizationMap.put(sysOrganization.getLevel(),sysOrganizationList);
+    }else {
+      boolean isExist = false;
+      List<SysOrganization> sysOrganizationList = treeSysOrganizationMap.get(level);
+      for (int i=0;i<sysOrganizationList.size();i++){
+        if (sysOrganizationList.get(i).getId().equals(sysOrganization.getId())){
+          isExist = true;
+        }
+      }
+
+      if(!isExist){
+        sysOrganizationList.add(sysOrganization);
+      }
+
+    }
+  }
+
+  /**
+   * 获取父节点
+   * @param sysChildOrganization	子节点
+   * @param sysOrganizations	  所有节点
+   * @param treeSysOrganizationMap 存储map
+   * @Author LeeYoung
+   * @Date 2021/1/30
+   **/
+  private void getParentMap(SysOrganization sysChildOrganization,
+                            List<SysOrganization> sysOrganizations,
+                            Map<String, List<SysOrganization>> treeSysOrganizationMap){
+
+    if(!sysChildOrganization.getLevel().equals(CommonConstant.LEVEL_TOP)){
+      sysOrganizations.forEach(sysOrganization -> {
+        if(sysOrganization.getId().equals(sysChildOrganization.getPid())){
+          addFilterList(sysOrganization,treeSysOrganizationMap);
+          getParentMap(sysOrganization,sysOrganizations,treeSysOrganizationMap);
+        };
+      });
+    }
   }
 
   /**
